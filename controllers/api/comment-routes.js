@@ -1,8 +1,7 @@
 const Router = require('express').Router;
-const {Comment } = require('../../models');
+const { Comment } = require('../../models');
 const withAuth = require('../../utils/auth');
 
-//  get all comments
 router.get("/", (req, res) => {
     Comment.findAll()
         .then((dbCommentData) => res.json(dbCommentData))
@@ -12,8 +11,21 @@ router.get("/", (req, res) => {
         });
 });
 
+router.get('/:id', (req,res) => {
+    Comment.findAll({
+        where: {
+            id: req.params.id
+        }
+    })
+    .then(dbCommentData => res.json(dbCommentData))
+    .catch(err=>{
+        console.log(err);
+        res.status(400).json(err);
+    });
+});
+
 //Create a comment
-router.ost('/', withAuth, (req, res) => {
+router.post('/', withAuth, (req, res) => {
     if (req.session) {
         Comment.create({
                 comment_text: req.body.comment_text,
