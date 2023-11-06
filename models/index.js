@@ -32,3 +32,4 @@ Comment.belongsTo(Post, {
     onDelete: 'CASCADE'
 });
 
+module.exports = { User, Post, Comment };
