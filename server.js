@@ -9,9 +9,13 @@ const hbs = exphbs.create({
 });
 const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const crypto = require('crypto'); // Add this line for generating a random secret
+
+// Generate a random secret key
+const secret = crypto.randomBytes(64).toString('hex');
 
 const sess = {
-    secret: process.env.DB_SECRET,
+    secret: process.env.DB_SECRET || secret,
     cookie: {},
     resave: false,
     saveUninitialized: true,
